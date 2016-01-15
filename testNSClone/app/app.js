@@ -1,8 +1,18 @@
-var application = require('application');
+var application = require("application");
+var platform = require("platform");
 
-application.mainModule = 'navigation/navigation';
-// START_CUSTOM_CODE_nativeScriptApp
-// Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
+application.mainModule = "main-page";
+application.cssFile = "./app.css";
 
-// END_CUSTOM_CODE_nativeScriptApp
+if(platform.device.os === platform.platformNames.android) {
+    application.onLaunch = function(intent) {
+        // hook the onActivityCreated callback upon application launching
+        application.android.onActivityCreated = function(activity) {
+            // apply the default theme once the Activity is created
+            var id = activity.getResources().getIdentifier("AppTheme", "style", activity.getPackageName());
+            activity.setTheme(id);
+        }
+    }
+}
+
 application.start();
